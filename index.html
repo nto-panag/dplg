@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="UTF-8">
+    <title>Feng Ultimate Tool</title>
+    <style>
+        :root { 
+            --accent: #7db37d; 
+            --dark-bg: rgba(30, 28, 25, 0.98); 
+            --input-bg: rgba(10, 10, 10, 0.9);
+        }
+    body { 
+        background-color: #302727; 
+        color: #FFBF00; 
+        text-align: center; 
+        font-family: Arial, sans-serif; 
+        padding-top: 50px;
+        overflow: hidden;
+    }
+        .main-container {
+            display: flex;
+            gap: 15px;
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        /* Αριστερή Στήλη - Καθαρισμός */
+        .left-panel { 
+            background: var(--dark-bg); 
+            border-radius: 6px; 
+            padding: 15px; 
+            border: 1px solid #443; 
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Δεξιά Στήλη - Σύνθεση Μηνύματος */
+        .right-panel {
+            width: 100%;
+            max-width: 800px;
+            background: var(--input-bg);
+            color: #ffffff !important;
+            border: 1px solid #554;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .top-grid { display: flex; gap: 8px; margin-bottom: 10px; }
+        .small-box { flex: 1; height: 38px; resize: none; }
+
+        textarea, input { 
+            width: 100%; 
+            background: var(--input-bg); 
+            color: #ffffff !important; 
+            border: 1px solid #554; 
+            padding: 8px; 
+            box-sizing: border-box; 
+            font-size: 14px; 
+            outline: none;
+        }
+
+        /* Ημερομηνία */
+        .date-container {
+            width: 280px;
+            background: var(--input-bg);
+            border: 1px solid var(--accent);
+            padding: 5px;
+            margin: 10px auto;
+            text-align: center;
+        }
+        .date-container label { font-size: 10px; color: var(--accent); text-transform: uppercase; display: block; }
+        .date-container input { border: none; text-align: center; height: 28px; }
+
+        /* Μεγάλα Textareas */
+        .list-box { height: 400px; resize: none; font-size: 13px; }
+        .big-box { 
+            min-height: 420px; 
+            resize: vertical; 
+            font-family: 'Courier New', monospace; 
+            font-size: 14px; 
+            line-height: 1.5; 
+            text-align: center;
+            font-weight: bold; /* Bold για το κείμενο που γράφεις */
+        }
+
+        /* Styling για το Placeholder (Οδηγίες) */
+        .big-box::placeholder {
+            color: #ffffff !important;
+            font-weight: bold;
+            opacity: 1;
+        }
+
+        .btn { 
+            background: var(--accent); color: #1a1a1a; border: none; padding: 10px; 
+            width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px;
+        }
+        
+        .export-btn { 
+            background: #d4a017; width: auto; padding: 10px 50px; margin: 15px auto; display: block;
+        }
+        .export-btn:hover { background: #b8860b; }
+
+        .copy-btn { background: #444; color: white; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    
+    <div class="left-panel">
+        <h2 style="color:var(--accent); font-size:12px; text-align:center; margin:0 0 5px 0;">ΚΑΘΑΡΙΣΜΟΣ</h2>
+        <textarea id="rawData" rows="5" placeholder="Επικόλληση εδώ..."></textarea>
+        <button class="btn" onclick="cleanData()">ΚΑΘΑΡΙΣΜΟΣ για επικοληση εδω η σε excel</button>
+        <textarea id="finalList" class="list-box" readonly placeholder="Καθαρή λίστα..."></textarea>
+    </div>
+
+    <div class="right-panel">
+        <div class="top-grid">
+            <textarea id="pPlayer" class="small-box" placeholder="ΠΑΙΚΤΗΣ:"></textarea>
+            <textarea id="pNote1" class="small-box" placeholder="ΣΗΜΕΙΩΣΗ 1:"></textarea>
+            <textarea id="pNote2" class="small-box" placeholder="ΣΗΜΕΙΩΣΗ 2:"></textarea>
+        </div>
+
+        <div class="date-container">
+            <label>Ημερομηνία & Ώρα (24h)</label>
+            <input type="datetime-local" id="pTime" step="1">
+        </div>
+
+        <button class="btn export-btn" onclick="buildMessage()">ΕΞΑΓΩΓΗ ΜΗΝΥΜΑΤΟΣ ↓</button>
+
+        <textarea id="pFinalOutput" class="big-box" placeholder="Πως δουλευει το εργαλειο
+
+1. πας φυλη μελη και παιρνεις copy τα μελη και τα ριχνεις στο πρωτο κουτάκι πανω αριστερα. το ιδιο και αν θες και απο τις αλλες ακαδημιες.
+2. Πατα ΚΑΘΑΡΙΣΜΟΣ και θα σου βγαλει καθαρα ονοματα λιστα. τα κανεις ενα copy και τα ριχνεις και σε excel.		
+3. κουτακι ΠΑΙΚΤΗΣ επικοληση εναν. ΣΗΜΕΙΩΣΕΙΣ 1, 2 ΓΡΑΨΕ ΜΑΛΑΚΙΕΣ ΝΑ ΤΙΣ ΛΟΥΣΤΟΥΝ ΝΑ ΣΠΛΙΤΑΡΟΥΝ ΜΕ ΔΟΡΙΑ.
+4. βαλε ημερομηνια και ωρα πλανου και πατα το ΕΞΑΓΩΓΗ ΜΥΝΗΜΑΤΟΣ το χρυσο κουμπι.
+για να μην γραφεις με βελακια πανω κατω
+
+απο κατω θα σου ετοιμασει μυνημα. κολησε απο κατω συντεαγμενες για τους στοχους ή απο σημειωσεις ή καλυτερα απο script MAP του tsalcapone απο το κεντρικο ορουμ.
+πατας ΑΝΤΙΓΡΑΦΗ ΜΥΝΗΜΑΤΟΣ και ετοιμο για παικτη ή σημειωσεις. κανεις refresh και συνεχιζεις με αλλον παικτη. την πρωτη λιστα καλα ειναι να την εχεις σε ενα .text να μην πας ποιο γρηγορα.
+			
+ΚΑΛΑ ΛΟΥΣΙΜΑΤΑ by feng"></textarea>
+        
+        <button class="btn copy-btn" onclick="copyResult()">ΑΝΤΙΓΡΑΦΗ ΜΗΝΥΜΑΤΟΣ</button>
+    </div>
+
+</div>
+
+<script>
+    function cleanData() {
+        const text = document.getElementById('rawData').value;
+        const lines = text.split('\n');
+        let result = [];
+        
+        lines.forEach(line => {
+            let parts = line.trim().split(/\s+/);
+            let name = parts[0];
+            let coords = line.match(/\b\d{3}\|\d{3}\b/) || line.match(/\b\d{6}\b/);
+
+            if (name && isNaN(name) && !["Όνομα", "Rank", "Name"].includes(name)) {
+                let formattedCoord = "";
+                if (coords) {
+                    let c = coords[0];
+                    formattedCoord = c.includes('|') ? c : c.slice(0,3) + "|" + c.slice(3);
+                }
+                result.push(name + (formattedCoord ? "\t" + formattedCoord : ""));
+            } else if (coords) {
+                let c = coords[0];
+                result.push(c.includes('|') ? c : c.slice(0,3) + "|" + c.slice(3));
+            }
+        });
+
+        document.getElementById('finalList').value = result.join('\n');
+    }
+
+    function buildMessage() {
+        const player = document.getElementById('pPlayer').value.trim();
+        const timeVal = document.getElementById('pTime').value;
+        const n1 = document.getElementById('pNote1').value.trim();
+        const n2 = document.getElementById('pNote2').value.trim();
+        const rawList = document.getElementById('finalList').value.trim();
+
+        let timeStr = "---";
+        if (timeVal) {
+            let d = new Date(timeVal);
+            let day = String(d.getDate()).padStart(2, '0');
+            let month = String(d.getMonth() + 1).padStart(2, '0');
+            let year = d.getFullYear();
+            let time = d.toTimeString().split(' ')[0];
+            timeStr = day + "/" + month + "/" + year + " " + time;
+        }
+
+        let msg = "ΠΡΟΣ: [player]" + player + "[/player]\n";
+        msg += "--------------------------------------\n";
+        msg += "[color=#ff0000][b]ΩΡΑ ΕΠΙΘΕΣΗΣ: " + timeStr + "[/b][/color]\n";
+        if(n1) msg += "[b]ΣΗΜΕΙΩΣΗ 1: " + n1 + "[/b]\n";
+        if(n2) msg += "[b]ΣΗΜΕΙΩΣΗ 2: " + n2 + "[/b]\n";
+        msg += "--------------------------------------\n\n";
+
+        const lines = rawList.split('\n');
+        lines.forEach(line => {
+            let match = line.match(/(\d{3})\|(\d{3})/);
+            if (match) {
+                msg += "[claim]" + match[1] + "|" + match[2] + "[/claim]\n";
+            }
+        });
+
+        document.getElementById('pFinalOutput').value = msg.trim();
+    }
+
+    function copyResult() {
+        const out = document.getElementById('pFinalOutput');
+        if(!out.value) return;
+        out.select();
+        document.execCommand('copy');
+        alert("Αντιγράφηκε!");
+    }
+</script>
+
+</body>
+</html>
