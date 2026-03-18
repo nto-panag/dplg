@@ -201,28 +201,39 @@ Unkn0wNG&#10;
 </div>
 
 <script>
-    function cleanData() {
-        const text = document.getElementById('rawData').value;
-        const lines = text.split('\n');
-        let result = [];
-        lines.forEach(line => {
-            let parts = line.trim().split(/\s+/);
-            let name = parts[0];
-            let coords = line.match(/\b\d{3}\|\d{3}\b/) || line.match(/\b\d{6}\b/);
-            if (name && isNaN(name) && !["Όνομα", "Rank", "Name"].includes(name)) {
-                let formattedCoord = "";
-                if (coords) {
-                    let c = coords[0];
-                    formattedCoord = c.includes('|') ? c : c.slice(0,3) + "|" + c.slice(3);
-                }
-                result.push(name + (formattedCoord ? "\t" + formattedCoord : ""));
-            } else if (coords) {
-                let c = coords[0];
-                result.push(c.includes('|') ? c : c.slice(0,3) + "|" + c.slice(3));
+function cleanData() {
+    const text = document.getElementById('rawData').value;
+    const lines = text.split('\n');
+    let result = [];
+
+    lines.forEach(line => {
+        let l = line.trim();
+        if (!l || l.length < 3) return;
+
+        // 1. Καθαρίζουμε τα Tab και τα πολλά κενά
+        l = l.replace(/\t/g, ' ').replace(/\s+/g, ' ');
+
+        // 2. Πάρε ό,τι υπάρχει πριν από τον πρώτο αριθμό (Points/Rank)
+        // Αυτό θα πιάσει όλο το "King of seles" ή "Da Vinci"
+        let nameMatch = l.match(/^[a-zA-Z._\s-]+/);
+        
+        if (nameMatch) {
+            let name = nameMatch[0].trim();
+            
+            // 3. Φιλτράρισμα άχρηστων λέξεων
+            const blacklist = ["Rank", "Όνομα", "Name", "Πόντοι", "Points", "Χωριά", "Villages"];
+            if (name.length > 2 && !blacklist.includes(name)) {
+                result.push(name);
             }
-        });
-        document.getElementById('finalList').value = result.join('\n');
-    }
+        }
+    });
+
+    // 4. Καθαρισμός από διπλότυπα
+    let uniqueResults = [...new Set(result)];
+    
+    // ΠΡΟΣΟΧΗ: Εδώ το ID πρέπει να είναι 'finalList' για να δουλέψει στο HTML σου!
+    document.getElementById('finalList').value = uniqueResults.join('\n');
+}
     function buildMessage() {
         const player = document.getElementById('pPlayer').value.trim();
         const timeVal = document.getElementById('pTime').value;
@@ -263,6 +274,5 @@ Unkn0wNG&#10;
 
 </body>
 </html>
-
 
 
