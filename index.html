@@ -1,161 +1,150 @@
-    </div>
 <!DOCTYPE html>
 <html lang="el-GR">
 <head>
     <meta charset="UTF-8">
-    <title>feng Tool</title>
+    <title>feng Tool bl</title>
     <style>
         :root { 
             --accent: #7db37d; 
             --dark-bg: rgba(30, 28, 25, 0.98); 
             --input-bg: rgba(10, 10, 10, 0.9);
+            --friend-green: #4a7a4a;
+            --black-red: #3c2f2f;
         }
-    body { 
-        background-color: #302727; 
-        color: #FFBF00; 
-        text-align: center; 
-        font-family: Arial, sans-serif; 
-        padding-top: 50px;
-        overflow-x: auto; /* Επιτρέπει scroll αν η οθόνη είναι πολύ μικρή */
-    }
+        body { 
+            background-color: #302727; 
+            color: #FFBF00; 
+            text-align: center; 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: auto;
+        }
         .main-container {
             display: flex;
             gap: 10px;
-            max-width: 1600px;
-            width: 98%;
+            max-width: 1400px;
+            width: 100%;
             margin: 0 auto;
             align-items: flex-start;
             justify-content: center;
+            padding-top: 1px; /* Κολλάει στην κορυφή */
         }
 
-        /* ΑΡΙΣΤΕΡΗ ΣΤΗΛΗ - Την κάναμε πιο στενή (240px) */
-        .left-panel { 
-            background: var(--dark-bg); 
-            border-radius: 6px; 
-            padding: 10px; 
-            border: 1px solid #443; 
-            flex: 0 0 240px;
-            width: 240px;
-            min-width: 240px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        /* ΜΕΣΑΙΑ ΣΤΗΛΗ */
-        .right-panel {
-            flex: 1;
-            max-width: 750px;
-            background: var(--input-bg);
-            color: #ffffff !important;
-            border: 1px solid #554;
-            padding: 15px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        /* ΔΕΞΙΑ ΣΤΗΛΗ - BLACK LIST (Επίσης πολύ στενή 180px) */
-        .black-list-panel {
+        /* ΚΟΙΝΟ ΣΤΥΛ ΓΙΑ ΟΛΑ ΤΑ ΠΑΝΕΛ (ΥΨΟΣ 620px) */
+        .panel {
             background: var(--dark-bg);
             border-radius: 6px;
-            padding: 12px;
-            border: 1px solid #622;
-            flex: 0 0 200px;
-			height: 630px;
-			color: #ffffff !important;
-			width: 180px;
-	        min-width: 180px;
+            padding: 11px;
+            height: 620px; /* Όλα τα box στο ίδιο μήκος */
             display: flex;
             flex-direction: column;
             gap: 8px;
+            box-sizing: border-box;
         }
 
-        .top-grid { display: flex; gap: 8px; margin-bottom: 10px; }
-        .small-box { flex: 1; height: 38px; resize: none; }
+        .friend-list-panel { border: 1px solid var(--friend-green); flex: 0 0 200px; }
+        .left-panel { border: 1.1px solid #443; flex: 0 0 220px; }
+        .right-panel { border: 1px solid #554; flex: 1; max-width: 640px; background: var(--input-bg); }
+        .black-list-panel { border: 1.1px solid var(--black-red); flex: 0 0 210px; }
 
+        /* TEXTAREAS */
         textarea, input { 
             width: 100%; 
-			height: 120px;
             background: var(--input-bg); 
             color: #ffffff !important; 
             border: 1px solid #554; 
-            padding: 8px; 
+            padding: 7px; 
             box-sizing: border-box; 
             font-size: 14px; 
             outline: none;
         }
 
+        .friend-box { height: 100%; resize: none; color: #FFBF00 !important; font-weight: bold; text-align: center; background: rgba(0,0,0,0.4); cursor: default; white-space: pre-wrap; }
+        .list-box { height: 400px; resize: none; text-align: center; font-size: 14px; }
+        .black-box { height: 110%; resize: none; color: #ffffff !important; font-weight: bold; text-align: center; white-space: pre-wrap; overflow-y: auto; cursor: default; font-size: 14px; }
+		
+        .black-box { 
+    height: 110%; 
+    resize: none; 
+    color: #9598cc !important; 
+
+    text-align: center; 
+    white-space: pre-wrap; 
+    overflow-y: auto; 
+    cursor: default; 
+    font-size: 12px; 
+}
+        .big-box { 
+            height: 440px; 
+            resize: none; 
+            font-family: 'Courier New', monospace; 
+            font-size: 13px; 
+            line-height: 1.5; 
+            text-align: center;
+            font-weight: bold;
+            white-space: pre-wrap;
+        }
+
+        /* GRID ΚΑΙ ΚΟΥΜΠΙΑ */
+        .top-grid { display: flex; gap: 8px; margin-bottom: 10px; }
+        .small-box { flex: 1; height: 38px; resize: none; font-weight: bold; }
+
         .date-container {
-            width: 250px;
+            width: 220px;
             background: var(--input-bg);
             border: 1px solid var(--accent);
             padding: 5px;
-            margin: 10px auto;
+            margin: 5px auto;
             text-align: center;
         }
         .date-container label { font-size: 10px; color: var(--accent); text-transform: uppercase; display: block; }
         .date-container input { border: none; text-align: center; height: 28px; }
 
-        .list-box { height: 400px; resize: none; font-size: 12px; }
-        .big-box { 
-            min-height: 420px; 
-            resize: vertical; 
-            font-family: 'Courier New', monospace; 
-            font-size: 14px; 
-            line-height: 1.5; 
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .big-box::placeholder {
-            color: #ffffff !important;
-			font-family: 'arial', monospace;
-			height: 440px;
-            resize: none;
-            font-size: 14px;
-            font-weight: bold;
-            opacity: 1;
-        }
-
-        .black-box {
-            height: 580px;
-            resize: none;
-            font-size: 14px;
-            color: #ffffff !important;
-            border: 1px solid #622;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .btn { 
-            background: var(--accent); color: #1a1a1a; border: none; padding: 10px 5px; 
-            width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 11px; /* Μικρότερο font για να χωράει */
-        }
-        
-        .export-btn { 
-            background: #d4a017; width: auto; padding: 10px 40px; margin: 15px auto; display: block;
-        }
-
+        .btn { background: var(--accent); color: #1a1a1a; border: none; padding: 10px 5px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 11px; }
+        .export-btn { background: #d4a017; width: auto; padding: 10px 40px; margin: 10px auto; display: block; }
         .copy-btn { background: #444; color: white; margin-top: 10px; }
-        .clear-black-btn { background: #622; color: #fff; border: 1px solid #833; cursor: pointer; padding: 5px; font-size: 10px; font-weight: bold;}
     </style>
 </head>
 <body>
 
 <div class="main-container">
     
-    <div class="left-panel">
-        <h2 style="color:var(--accent); font-size:11px; text-align:center; margin:0 0 5px 0;">ΚΑΘΑΡΙΣΜΟΣ</h2>
-        <textarea id="rawData" rows="5" placeholder="Επικόλληση..."></textarea>
-        <button class="btn" onclick="cleanData()">ΚΑΘΑΡΙΣΜΟΣ</button>
-        <textarea id="finalList" class="list-box" readonly placeholder="Εδώ θα εμφανιστουν τα ονομα των παικτων με την σειρα μετα την επικοληση που θα κανεις απο την λιστα profil φυλης"></textarea>
+    <div class="panel friend-list-panel">
+        <h2 style="color:#ffffff; font-size:12px; margin:0 0 5px 0;">ΛΙΣΤΑ ΦΙΛΩΝ🥂<br>feng</h2>
+        <textarea id="friendListNames" class="friend-box" readonly>
+🚖ΙΠΠΟΛΥΤΟΣ
+🏪steba 
+🚂stam21r
+🤖aggelosdelta
+🚔⛓️KOYZOYLOS
+🔋 fotisff
+🖋️WayOflife1914 
+🍬❤️contesina 
+💪chris-sk8r 
+🍹Tom Bombadil
+🚛Μιλτιάδης 
+🕺Velimos 
+⚡giannounka 
+👮🚨Savorin
+🐥sedero
+
+
+        </textarea>
     </div>
 
-    <div class="right-panel">
+    <div class="panel left-panel">
+        <h2 style="color:var(--accent); font-size:11px; margin:0 0 5px 0;">ΚΑΘΑΡΙΣΜΟΣ</h2>
+        <textarea id="rawData" rows="5" placeholder="Επικόλληση..."></textarea>
+        <button class="btn" onclick="cleanData()">ΚΑΘΑΡΙΣΜΟΣ</button>
+        <textarea id="finalList" class="list-box" readonly placeholder="Λίστα ονομάτων..."></textarea>
+    </div>
+
+    <div class="panel right-panel">
         <div class="top-grid">
-            <textarea id="pPlayer" class="small-box" placeholder="ΠΑΙΚΤΗΣ:"></textarea>
-            <textarea id="pNote1" class="small-box" placeholder="ΣΗΜΕΙΩΣΗ 1:"></textarea>
-            <textarea id="pNote2" class="small-box" placeholder="ΣΗΜΕΙΩΣΗ 2:"></textarea>
+            <textarea id="pPlayer" class="small-box">ΠΑΙΚΤΗΣ:</textarea>
+            <textarea id="pNote1" class="small-box">ΟΔΗΓΙΑ 1:</textarea>
+            <textarea id="pNote2" class="small-box">ΟΔΗΓΙΑ 2:</textarea>
         </div>
 
         <div class="date-container">
@@ -166,47 +155,52 @@
 
    <textarea id="pFinalOutput" class="big-box" placeholder="Πως δουλευει το εργαλειο:
 		
-1. πας φυλη μελη και παιρνεις copy τα μελη και τα ριχνεις στο πρωτο κουτάκι πανω αριστερα. το ιδιο και αν θες μετα και απο τις αλλες ακαδημιες.
+1. Πας φυλη μελη και παιρνεις copy τα μελη και τα ριχνεις στο πρωτο κουτάκι πανω αριστερα.
 2. Πατα ΚΑΘΑΡΙΣΜΟΣ και θα σου βγαλει καθαρα ονοματα λιστα. τα κανεις ενα copy και τα ριχνεις και σε excel.		
-3. κουτακι ΠΑΙΚΤΗΣ επικοληση εναν. ΣΗΜΕΙΩΣΕΙΣ 1, 2 Γραψε οδηγιες
-4. βαλε ημερομηνια και ωρα πλανου και πατα το ΕΞΑΓΩΓΗ ΜΥΝΗΜΑΤΟΣ το χρυσο κουμπι.
-για να μην γραφεις, με βελακια πανω, κατω, δεξια, αριστερα 
-απο κατω θα σου ετοιμασει μυνημα. κολησε απο κατω συντεταγμενες για τους στοχους ή απο σημειωσεις ή καλυτερα απο script MAP του tsalcapone απο το κεντρικο φορουμ.
-πατας ΑΝΤΙΓΡΑΦΗ ΜΥΝΗΜΑΤΟΣ και ετοιμο για παικτη ή σημειωσεις. κανεις refresh και συνεχιζεις με αλλον παικτη. την πρωτη λιστα καλα ειναι να την εχεις σε ενα .text να πας ποιο γρηγορα.
+3. Κουτακι ΠΑΙΚΤΗΣ επικολληση εναν. (με διπλο κλικ στο ονομα και σουρσιμο )
+ΟΔΗΓΙΕΣ 1 2 ,Γραψε οδηγιες
+4. Βαλε ημερομηνια και ωρα πλανου και πατα το ΕΞΑΓΩΓΗ ΜΥΝΗΜΑΤΟΣ το χρυσο κουμπι.
+(για να μην γραφεις, με βελακια πανω, κατω, δεξια, αριστερα) 
+Απο κατω θα σου ετοιμασει μυνημα. κολησε απο κατω συντεταγμενες για τους στοχους. και γραψε και οτι θες.
+Πατας ΑΝΤΙΓΡΑΦΗ ΜΥΝΗΜΑΤΟΣ και ετοιμο για παικτη ή σημειωσεις. κανεις refresh και συνεχιζεις με αλλον παικτη.
 
                                               ΚΑΛΑ ΛΟΥΣΙΜΑΤΑ by feng"></textarea>
         
         <button class="btn copy-btn" onclick="copyResult()">ΑΝΤΙΓΡΑΦΗ ΜΗΝΥΜΑΤΟΣ</button>
     </div>
-<div class="black-list-panel">
-        <h2 style="color:#ff4444; font-size:13px; text-align:center; margin:0 0 5px 0;">BLACK LIST<br>για να μη ξεχνώ</h2>
-        <textarea id="blackListNames" class="black-box" placeholder="
-alexisge 💀
-anselmo 🏴️🐑🎭 
-ARMAGEDDON 🧨
-Assassin Of Death 🎻🤡
-badcarma 🏍️💃
-Bullet 🔫🐕
-ektelest1s ⚰️
-EuronGreyjoy 🍿🚀
-Gr33KWarri0R 🕊️
-georoom 🛒
-Da.Vinci 🎨🌫️
-dreamer bill 💤
-Ganjafarmercy 🥀
-mormegil1 🤝
-PureDo 🧼
-Resurrection 🧟💊
-Unkn0wNG 🕵️🏆
+
+    <div class="panel black-list-panel">
+        <h2 style="color:#ff4444; font-size:12px; margin:0;">BLACK LIST</h2>
+        <h3 style="color:#ff4222; font-size:10px; margin:0 0 2px 0; font-style: arial;">για να μη ξεχνώ...</h3>
+        <textarea id="blackListNames" class="black-box" readonly>
+💀alexisge
+ 🐑🎭 anselmo 
+ 🧨ARMAGEDDON
+🤡Assassin Of Death
+🏍💃badcarma 
+🔫🐕Bullet 
+🍿EuronGreyjoy
+🧱Gr33KWarri0R 
+ 🛒🧿georoom 
+🎨Da.Vinci
+💤dreamer bill 
+ 🥀Ganjafarmercy 
+ 🤝mormegil1
+🧼PureDo 
+🧟💊Resurrection 
+🕵️🏆Unkn0wNG
+🚦-cancel-
+
 
 θα συμπληρωθει...⏳
+
+
 
 🎵🎵🎵🎵🎵🎵🎵🎵🎵
 Θα πάω να χτίσω μια φωλιά στον ουρανό
 Θα κατεβαίνω μόνο αν θέλω να γελάσω
 Σιγά μην κλάψω σιγά μη φοβηθώ.
-            " style="white-space: pre-wrap; overflow-y: auto;"></textarea>
-        <button class="clear-black-btn" onclick="document.getElementById('blackListNames').value=''">ΚΑΘΑΡΙΣΜΟΣ</button>
+        </textarea>
     </div>
 </div>
 
@@ -215,77 +209,52 @@ function cleanData() {
     const text = document.getElementById('rawData').value;
     const lines = text.split('\n');
     let result = [];
-
     lines.forEach(line => {
         let l = line.trim();
         if (!l || l.length < 3) return;
-
-        // 1. Καθαρίζουμε τα Tab και τα πολλά κενά
         l = l.replace(/\t/g, ' ').replace(/\s+/g, ' ');
-
-        // 2. Πάρε ό,τι υπάρχει πριν από τον πρώτο αριθμό (Points/Rank)
-        // Αυτό θα πιάσει όλο το "King of seles" ή "Da Vinci"
         let nameMatch = l.match(/^[a-zA-Z._\s-]+/);
-        
         if (nameMatch) {
             let name = nameMatch[0].trim();
-            
-            // 3. Φιλτράρισμα άχρηστων λέξεων
             const blacklist = ["Rank", "Όνομα", "Name", "Πόντοι", "Points", "Χωριά", "Villages"];
-            if (name.length > 2 && !blacklist.includes(name)) {
-                result.push(name);
-            }
+            if (name.length > 2 && !blacklist.includes(name)) result.push(name);
         }
     });
-
-    // 4. Καθαρισμός από διπλότυπα
-    let uniqueResults = [...new Set(result)];
-    
-    // ΠΡΟΣΟΧΗ: Εδώ το ID πρέπει να είναι 'finalList' για να δουλέψει στο HTML σου!
-    document.getElementById('finalList').value = uniqueResults.join('\n');
+    document.getElementById('finalList').value = [...new Set(result)].join('\n');
 }
-    function buildMessage() {
-        const player = document.getElementById('pPlayer').value.trim();
-        const timeVal = document.getElementById('pTime').value;
-        const n1 = document.getElementById('pNote1').value.trim();
-        const n2 = document.getElementById('pNote2').value.trim();
-        const rawList = document.getElementById('finalList').value.trim();
-        let timeStr = "---";
-        if (timeVal) {
-            let d = new Date(timeVal);
-            let day = String(d.getDate()).padStart(2, '0');
-            let month = String(d.getMonth() + 1).padStart(2, '0');
-            let year = d.getFullYear();
-            let time = d.toTimeString().split(' ')[0];
-            timeStr = day + "/" + month + "/" + year + " " + time;
-        }
-        let msg = "ΠΡΟΣ: [player]" + player + "[/player]\n";
-        msg += "--------------------------------------\n";
-        msg += "[color=#ff0000][b]ΩΡΑ ΕΠΙΘΕΣΗΣ: " + timeStr + "[/b][/color]\n";
-        if(n1) msg += "[b]ΣΗΜΕΙΩΣΗ 1: " + n1 + "[/b]\n";
-        if(n2) msg += "[b]ΣΗΜΕΙΩΣΗ 2: " + n2 + "[/b]\n";
-        msg += "--------------------------------------\n\n";
-        const lines = rawList.split('\n');
-        lines.forEach(line => {
-            let match = line.match(/(\d{3})\|(\d{3})/);
-            if (match) msg += "[claim]" + match[1] + "|" + match[2] + "[/claim]\n";
-        });
-        document.getElementById('pFinalOutput').value = msg.trim();
-    }
 
-    function copyResult() {
-        const out = document.getElementById('pFinalOutput');
-        if(!out.value) return;
-        out.select();
-        document.execCommand('copy');
-        alert("Αντιγράφηκε!");
+function buildMessage() {
+    const player = document.getElementById('pPlayer').value.replace('ΠΑΙΚΤΗΣ:', '').trim();
+    const timeVal = document.getElementById('pTime').value;
+    const n1 = document.getElementById('pNote1').value.replace('ΣΗΜΕΙΩΣΗ 1:', '').trim();
+    const n2 = document.getElementById('pNote2').value.replace('ΣΗΜΕΙΩΣΗ 2:', '').trim();
+    const rawList = document.getElementById('finalList').value.trim();
+    let timeStr = "---";
+    if (timeVal) {
+        let d = new Date(timeVal);
+        timeStr = String(d.getDate()).padStart(2, '0') + "/" + String(d.getMonth() + 1).padStart(2, '0') + "/" + d.getFullYear() + " " + d.toTimeString().split(' ')[0];
     }
+    let msg = "ΠΡΟΣ: [player]" + player + "[/player]\n--------------------------------------\n[color=#ff0000][b]ΩΡΑ ΕΠΙΘΕΣΗΣ: " + timeStr + "[/b][/color]\n";
+    if(n1) msg += "[b]" + n1 + "[/b]\n";
+    if(n2) msg += "[b]" + n2 + "[/b]\n";
+    msg += "--------------------------------------\n\n";
+    rawList.split('\n').forEach(line => {
+        let match = line.match(/(\d{3})\|(\d{3})/);
+        if (match) msg += "[claim]" + match[1] + "|" + match[2] + "[/claim]\n";
+    });
+    const output = document.getElementById('pFinalOutput');
+    output.readOnly = false;
+    output.value = msg.trim();
+}
+
+function copyResult() {
+    const out = document.getElementById('pFinalOutput');
+    if(!out.value) return;
+    out.select();
+    document.execCommand('copy');
+    alert("Αντιγράφηκε!");
+}
 </script>
 
 </body>
 </html>
-
-
-
-
-
